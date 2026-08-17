@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live News Scraping Crime Heatmap | Crime Analytics AI</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='stylesheets/modern_theme.css')}}">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main">
+        <label class="logo" onclick="window.location.href='{{url_for('index')}}'">
+            <i class="fa-solid fa-shield-halved text-purple-400"></i>
+            CRIME ANALYTICS AI
+        </label>
+        <ul>
+            <li><a href="{{url_for('index')}}"><i class="fa-solid fa-house mr-1"></i> Home</a></li>
+            <li><a href="{{url_for('about')}}"><i class="fa-solid fa-circle-info mr-1"></i> About</a></li>
+            <li><a href="{{url_for('feedback')}}"><i class="fa-solid fa-comment-dots mr-1"></i> Feedback</a></li>
+        </ul>
+    </nav>
+    <div class="pt-20">
+        <nav class="secondnav">
+            <label class="log"><i class="fa-solid fa-newspaper mr-2"></i> WEB-SCRAPED REAL-TIME CRIME HEATMAP & NEWS FEED</label>
+        </nav>
+    </div>
+
+    <!-- Ticker Widget -->
+    <div class="max-w-7xl mx-auto px-6 pt-6">
+        <rssapp-ticker id="aFjVs9ItkUpckHxO"></rssapp-ticker>
+        <script src="https://widget.rss.app/v1/ticker.js" type="text/javascript" async></script>
+    </div>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        <div class="glass-card mb-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-rose-500/20 flex items-center justify-center text-rose-400 text-2xl shrink-0">
+                        <i class="fa-solid fa-fire-flame-curved"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-white font-heading">Selenium & BeautifulSoup News Scraper</h3>
+                        <p class="text-slate-400 text-sm mt-1">
+                            Collects live headlines from <em>India Today Crime</em>, extracts city entities via NLP regex, geocodes coordinates via <code>geopy (Nominatim)</code>, and renders intensity heatmaps.
+                        </p>
+                    </div>
+                </div>
+
+                <button class="btn-modern shrink-0 px-6 py-3" onclick="runFile()">
+                    <i class="fa-solid fa-rotate mr-1"></i> Trigger Scraper Update
+                </button>
+            </div>
+        </div>
+
+        <script>
+            function runFile() {
+                fetch('/run-file')
+                    .then(response => response.json())
+                    .then(data => {
+                        alert("Scraper Execution Started! Generating updated Folium Heatmap...");
+                    });
+            }
+        </script>
+
+        <!-- Folium Heatmap Display -->
+        <div class="glass-card">
+            <h3 class="text-xl font-bold text-white mb-4 font-heading flex items-center justify-between">
+                <span><i class="fa-solid fa-map-pin text-rose-400 mr-2"></i> Live Geospatial Crime Intensity Map</span>
+                <span class="text-xs font-semibold px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                    <i class="fa-solid fa-satellite-dish mr-1 animate-pulse"></i> LIVE STREAM
+                </span>
+            </h3>
+            <div class="rounded-xl overflow-hidden border border-slate-700/50 shadow-2xl">
+                <iframe src="{{url_for('foliummap')}}" class="w-full h-[650px] border-0"></iframe>
+            </div>
+        </div>
+    </main>
+
+
+</body>
+
+</html>

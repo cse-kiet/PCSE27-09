@@ -1,0 +1,15 @@
+flask
+gunicorn
+pandas
+numpy
+scikit-learn
+joblib
+werkzeug
+beautifulsoup4
+selenium
+webdriver-manager
+folium
+geopy
+plotly
+kmodes
+prophet

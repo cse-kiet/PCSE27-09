@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Total IPC Crime Forecasting | Crime Analytics AI</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='stylesheets/modern_theme.css')}}">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main">
+        <label class="logo" onclick="window.location.href='{{url_for('index')}}'">
+            <i class="fa-solid fa-shield-halved text-purple-400"></i>
+            CRIME ANALYTICS AI
+        </label>
+        <ul>
+            <li><a href="{{url_for('index')}}"><i class="fa-solid fa-house mr-1"></i> Home</a></li>
+            <li><a href="{{url_for('about')}}"><i class="fa-solid fa-circle-info mr-1"></i> About</a></li>
+            <li><a href="{{url_for('feedback')}}"><i class="fa-solid fa-comment-dots mr-1"></i> Feedback</a></li>
+        </ul>
+    </nav>
+    <div class="pt-20">
+        <nav class="secondnav">
+            <label class="log"><i class="fa-solid fa-chart-area mr-2"></i> TOTAL IPC CRIMES TIME SERIES FORECASTING (FBPROPHET)</label>
+        </nav>
+    </div>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-6 py-10 space-y-8">
+        <div class="glass-card flex items-center justify-between">
+            <div>
+                <h2 class="text-2xl font-bold text-white font-heading mb-2">Total National IPC Crimes Forecast</h2>
+                <p class="text-slate-400 text-sm">Meta FbProphet Model accuracy: <strong class="text-emerald-400">96.66%</strong></p>
+            </div>
+            <a href="{{url_for('datadisp')}}" class="btn-modern px-5 py-2 text-xs">
+                <i class="fa-solid fa-table mr-1"></i> View Source Dataset
+            </a>
+        </div>
+
+        <!-- Graphs -->
+        <div class="glass-card">
+            <h3 class="text-lg font-bold text-white mb-4 font-heading"><i class="fa-solid fa-chart-line text-cyan-400 mr-2"></i> Total IPC Crimes 5-Year Forecast</h3>
+            <div class="rounded-xl overflow-hidden border border-slate-700/50">
+                <iframe class="w-full h-[500px] border-0" src="{{url_for('static',filename='images/forecast(total_ipc).html')}}"></iframe>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <h3 class="text-lg font-bold text-white mb-4 font-heading"><i class="fa-solid fa-chart-area text-purple-400 mr-2"></i> Forecast Components & Trend Breakdown</h3>
+            <div class="rounded-xl overflow-hidden border border-slate-700/50">
+                <iframe class="w-full h-[500px] border-0" src="{{url_for('static',filename='images/forecast_cmp_total_ipc.html')}}"></iframe>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

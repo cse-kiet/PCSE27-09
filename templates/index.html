@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crime Analytics AI | Hotspot & Trend Intelligence Platform</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Modern Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='stylesheets/modern_theme.css')}}">
+</head>
+
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="main">
+        <label class="logo" onclick="window.location.href='{{url_for('index')}}'">
+            <i class="fa-solid fa-shield-halved text-purple-400"></i>
+            CRIME ANALYTICS AI
+        </label>
+        <ul>
+            <li><a href="{{url_for('index')}}" class="active"><i class="fa-solid fa-house mr-1"></i> Home</a></li>
+            <li><a href="{{url_for('about')}}"><i class="fa-solid fa-circle-info mr-1"></i> About</a></li>
+            <li><a href="{{url_for('feedback')}}"><i class="fa-solid fa-comment-dots mr-1"></i> Feedback</a></li>
+            <li><a href="https://github.com/Mubeen-Zaki/Final_Year_Project" target="_blank"><i class="fa-brands fa-github mr-1"></i> GitHub</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-32 pb-12 px-6 max-w-7xl mx-auto text-center">
+        <div class="hero-badge">
+            <span class="pulse-dot"></span>
+            AI-POWERED PREDICTIVE POLICING & HOTSPOT INTELLIGENCE PLATFORM
+        </div>
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white mb-6 font-heading">
+            Transforming Past Data Into <span class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">Future Safety</span>
+        </h1>
+        <p class="text-slate-400 text-lg md:text-xl max-w-3xl mx-auto mb-10 leading-relaxed font-light">
+            Leveraging K-Means Clustering, Random Forest Classification, Linear Regression, and Real-Time Web Scraping to identify risk zones and forecast crime trends across India.
+        </p>
+
+        <!-- Stats Bar -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-16">
+            <div class="glass-card p-4 text-center">
+                <div class="text-3xl font-extrabold text-purple-400 font-heading">97.3%</div>
+                <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold mt-1">Classification Accuracy</div>
+            </div>
+            <div class="glass-card p-4 text-center">
+                <div class="text-3xl font-extrabold text-cyan-400 font-heading">36+</div>
+                <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold mt-1">States & UTs Analyzed</div>
+            </div>
+            <div class="glass-card p-4 text-center">
+                <div class="text-3xl font-extrabold text-pink-400 font-heading">800+</div>
+                <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold mt-1">Districts Mapped</div>
+            </div>
+            <div class="glass-card p-4 text-center">
+                <div class="text-3xl font-extrabold text-emerald-400 font-heading">Real-Time</div>
+                <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold mt-1">News Scraping Feed</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Features Grid -->
+    <main class="max-w-7xl mx-auto px-6 pb-24">
+        <div class="text-center mb-12">
+            <h2 class="text-2xl md:text-3xl font-bold text-white font-heading">Analytical Modules</h2>
+            <p class="text-slate-400 text-sm mt-1">Explore interactive predictions, machine learning models, and geospatial visualizers</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- 1. K-Means Clustering -->
+            <div class="glass-card flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xl mb-4">
+                        <i class="fa-solid fa-chart-pie"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 font-heading">Clustering (K-Means)</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Descriptive analysis categorizing districts into Red, Orange, and Green Crime Risk Zones.
+                    </p>
+                </div>
+                <div class="drop-down w-full">
+                    <button class="btn-modern w-full">
+                        Try Module <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </button>
+                    <div class="dd-content">
+                        <a href="{{url_for('Kmeans')}}"><i class="fa-solid fa-bolt text-purple-400 mr-2"></i> K-Means Hotspot Predictor</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Random Forest Classification -->
+            <div class="glass-card flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-pink-500/20 border border-pink-500/30 flex items-center justify-center text-pink-400 text-xl mb-4">
+                        <i class="fa-solid fa-network-wired"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 font-heading">Classification</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Predict future district risk classification using Random Forest & Exponential Smoothing.
+                    </p>
+                </div>
+                <div class="drop-down w-full">
+                    <button class="btn-modern w-full">
+                        Try Module <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </button>
+                    <div class="dd-content">
+                        <a href="{{url_for('Randomfrstcls')}}"><i class="fa-solid fa-tree text-pink-400 mr-2"></i> Random Forest Classifier</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Linear Regression -->
+            <div class="glass-card flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xl mb-4">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 font-heading">Linear Regression</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Project State IPC Crime counts based on Geometric Population Growth calculations.
+                    </p>
+                </div>
+                <a href="{{url_for('LinearReg')}}" class="btn-modern w-full text-center">
+                    Launch Model <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+
+            <!-- 4. Time Series Forecasting -->
+            <div class="glass-card flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl mb-4">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 font-heading">Time-Series Forecast</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Long-term national forecasting for IPC crimes and crime rates using FbProphet models.
+                    </p>
+                </div>
+                <div class="drop-down w-full">
+                    <button class="btn-modern w-full">
+                        View Forecasts <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </button>
+                    <div class="dd-content">
+                        <a href="{{url_for('timeseriescr')}}"><i class="fa-solid fa-arrow-trend-up text-emerald-400 mr-2"></i> Crime Rate Forecast</a>
+                        <a href="{{url_for('timeseriesipc')}}"><i class="fa-solid fa-chart-area text-emerald-400 mr-2"></i> Total IPC Forecast</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Visual Analytics (Google & Plotly) -->
+            <div class="glass-card flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl mb-4">
+                        <i class="fa-solid fa-chart-column"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 font-heading">Visual Analytics</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Explore interactive visual data dashboards powered by Google Charts & Plotly.
+                    </p>
+                </div>
+                <div class="drop-down w-full">
+                    <button class="btn-modern w-full">
+                        Open Dashboards <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </button>
+                    <div class="dd-content">
+                        <a href="{{url_for('analysis')}}"><i class="fa-brands fa-google text-amber-400 mr-2"></i> Google Charts Dashboard</a>
+                        <a href="{{url_for('analysis2')}}"><i class="fa-solid fa-[#FF6600] fa-chart-simple text-amber-400 mr-2"></i> Plotly Interactive Graphs</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Geo-Spatial Analysis -->
+            <div class="glass-card flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-xl mb-4">
+                        <i class="fa-solid fa-earth-asia"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 font-heading">Geo-Spatial Analysis</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Choropleth mapping visualizer mapping regional crime densities across Indian coordinates.
+                    </p>
+                </div>
+                <div class="drop-down w-full">
+                    <button class="btn-modern w-full">
+                        View Maps <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </button>
+                    <div class="dd-content">
+                        <a href="{{url_for('analysis3')}}"><i class="fa-solid fa-map-location-dot text-indigo-400 mr-2"></i> Choropleth Maps</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Crime News Feed Scraper -->
+            <div class="glass-card flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 text-xl mb-4">
+                        <i class="fa-solid fa-newspaper"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 font-heading">Live Scraped Heatmap</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Real-time web scraper fetching crime headlines & plotting live Folium heatmaps.
+                    </p>
+                </div>
+                <a href="{{url_for('crimefeed')}}" class="btn-modern w-full text-center">
+                    Open Live Feed <i class="fa-solid fa-fire text-xs"></i>
+                </a>
+            </div>
+
+            <!-- 8. Raw Datasets Explorer -->
+            <div class="glass-card flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-teal-400 text-xl mb-4">
+                        <i class="fa-solid fa-database"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 font-heading">Datasets Explorer</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Browse and inspect NCRB historical datasets and processed machine learning data tables.
+                    </p>
+                </div>
+                <a href="{{url_for('datadisp')}}" class="btn-modern w-full text-center">
+                    Explore Datasets <i class="fa-solid fa-table text-xs"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+
+</body>
+
+</html>

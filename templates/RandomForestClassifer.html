@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Forest Crime Predictor | Crime Analytics AI</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='stylesheets/modern_theme.css')}}">
+
+    <script src="{{url_for('static',filename='javascript/linearregression.js')}}"></script>
+    <script src="{{url_for('static',filename='javascript/random-forest-classifier.js')}}"></script>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main">
+        <label class="logo" onclick="window.location.href='{{url_for('index')}}'">
+            <i class="fa-solid fa-shield-halved text-purple-400"></i>
+            CRIME ANALYTICS AI
+        </label>
+        <ul>
+            <li><a href="{{url_for('index')}}"><i class="fa-solid fa-house mr-1"></i> Home</a></li>
+            <li><a href="{{url_for('about')}}"><i class="fa-solid fa-circle-info mr-1"></i> About</a></li>
+            <li><a href="{{url_for('feedback')}}"><i class="fa-solid fa-comment-dots mr-1"></i> Feedback</a></li>
+        </ul>
+    </nav>
+    <div class="pt-20">
+        <nav class="secondnav">
+            <label class="log"><i class="fa-solid fa-network-wired mr-2"></i> RANDOM FOREST CLASSIFIER & EXPONENTIAL SMOOTHING</label>
+        </nav>
+    </div>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-6 py-12">
+        <!-- Info Banner -->
+        <div class="glass-card mb-8 flex items-center gap-4 bg-purple-500/10 border-purple-500/30">
+            <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400 text-2xl shrink-0">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+            <div>
+                <h3 class="text-lg font-bold text-white font-heading">Future Crime Classification Model</h3>
+                <p class="text-slate-300 text-sm">
+                    This module projects 8 sub-types of IPC crimes into future target years using <strong>Exponential Smoothing ($\alpha = 0.3$)</strong> and classifies district risk using a <strong>Random Forest Classifier</strong>.
+                </p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left 2 Columns: Input Form & Results -->
+            <div class="lg:col-span-2 glass-card">
+                <h2 class="text-2xl font-bold text-white mb-2 font-heading">
+                    <i class="fa-solid fa-sliders text-pink-400 mr-2"></i> Select Prediction Parameters
+                </h2>
+                <p class="text-slate-400 text-sm mb-8">
+                    Select the target State, District, and Future Year to estimate future crime risk zone labels.
+                </p>
+
+                <form action="{{url_for('randomfrstcls')}}" method="post" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div>
+                            <label for="state_input" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">State / UT</label>
+                            <select id="state_input" name="state_input" required class="w-full"></select>
+                        </div>
+                        <div>
+                            <label for="district_input" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">District</label>
+                            <select name="district_input" id="district_input" required class="w-full">
+                                <option disabled selected>Select District</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="year-input" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Target Year</label>
+                            <select name="year" id="year-input" required class="w-full">
+                                <option disabled selected>Select Year</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <script>
+                        populateStates("state_input", "district_input");
+                        Addyears("year-input");
+                    </script>
+
+                    <div class="pt-4">
+                        <button type="submit" class="btn-modern px-8 py-3 w-full sm:w-auto">
+                            <i class="fa-solid fa-brain"></i> Generate Random Forest Forecast
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Result Box -->
+                {% if prediction_text %}
+                <div class="mt-8 pt-8 border-t border-slate-700/50">
+                    <div class="text-xs uppercase tracking-widest text-slate-400 font-semibold mb-3">Model Output & Estimated Features</div>
+                    <div class="p-6 rounded-2xl bg-slate-900/80 border border-slate-700/60 text-white font-mono text-sm leading-relaxed">
+                        {% if 'RED' in prediction_text %}
+                            <span class="zone-badge zone-red mb-4 inline-block"><i class="fa-solid fa-triangle-exclamation"></i> RED ZONE</span>
+                        {% elif 'ORANGE' in prediction_text %}
+                            <span class="zone-badge zone-orange mb-4 inline-block"><i class="fa-solid fa-circle-exclamation"></i> ORANGE ZONE</span>
+                        {% else %}
+                            <span class="zone-badge zone-green mb-4 inline-block"><i class="fa-solid fa-shield-check"></i> GREEN ZONE</span>
+                        {% endif %}
+                        <div class="text-slate-300 text-xs mt-2 break-all overflow-x-auto">
+                            {{ prediction_text }}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Right Column: Model Stats & Legend -->
+            <div class="glass-card flex flex-col justify-between">
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-4 font-heading">
+                        <i class="fa-solid fa-chart-pie text-pink-400 mr-2"></i> Classification Metrics
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-700/40">
+                            <div class="text-2xl font-black text-pink-400 font-heading">97.3%</div>
+                            <div class="text-xs text-slate-400 mt-1">Accuracy Score on Test Split</div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center gap-3">
+                            <div class="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_10px_#FF0055]"></div>
+                            <div>
+                                <div class="text-sm font-bold text-red-400">RED ZONE</div>
+                                <div class="text-xs text-slate-400">High Risk Predicted</div>
+                            </div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-orange-500/10 border border-orange-500/30 flex items-center gap-3">
+                            <div class="w-3 h-3 rounded-full bg-orange-500 shadow-[0_0_10px_#FF7700]"></div>
+                            <div>
+                                <div class="text-sm font-bold text-orange-400">ORANGE ZONE</div>
+                                <div class="text-xs text-slate-400">Moderate Risk Predicted</div>
+                            </div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-3">
+                            <div class="w-3 h-3 rounded-full bg-emerald-500 shadow-[0_0_10px_#10B981]"></div>
+                            <div>
+                                <div class="text-sm font-bold text-emerald-400">GREEN ZONE</div>
+                                <div class="text-xs text-slate-400">Low Risk Predicted</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-6 border-t border-slate-700/50">
+                    <a href="{{url_for('datadisp')}}" class="text-xs font-semibold text-pink-400 hover:text-pink-300 flex items-center justify-between">
+                        <span>Inspect Encoded Features</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+</body>
+
+</html>

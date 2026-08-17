@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Crime Analytics AI | Intelligence Platform</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='stylesheets/modern_theme.css')}}">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main">
+        <label class="logo" onclick="window.location.href='{{url_for('index')}}'">
+            <i class="fa-solid fa-shield-halved text-purple-400"></i>
+            CRIME ANALYTICS AI
+        </label>
+        <ul>
+            <li><a href="{{url_for('index')}}"><i class="fa-solid fa-house mr-1"></i> Home</a></li>
+            <li><a href="{{url_for('about')}}" class="active"><i class="fa-solid fa-circle-info mr-1"></i> About</a></li>
+            <li><a href="{{url_for('feedback')}}"><i class="fa-solid fa-comment-dots mr-1"></i> Feedback</a></li>
+        </ul>
+    </nav>
+    <div class="pt-20">
+        <nav class="secondnav">
+            <label class="log"><i class="fa-solid fa-circle-question mr-2"></i> ABOUT THE PROJECT & METHODOLOGY</label>
+        </nav>
+    </div>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-6 py-12 space-y-12">
+        <!-- Section 1 -->
+        <div class="glass-card grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div>
+                <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400 text-lg mb-4">
+                    <i class="fa-solid fa-eye"></i>
+                </div>
+                <h2 class="text-3xl font-extrabold text-white mb-4 font-heading">Why is it Needed?</h2>
+                <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                    Crime trends in India fluctuate dynamically with demographic growth and urban expansion. Traditional policing requires countless manual hours analyzing raw data logs.
+                </p>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    By leveraging machine learning and geospatial mapping, our platform provides actionable inferences, predictive risk scores, and alerting systems to transform reactive policing into proactive crime prevention.
+                </p>
+            </div>
+            <div class="flex justify-center">
+                <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_2UeWRZ.json" background="transparent" speed="1" class="w-full max-w-[350px] h-[300px]" loop autoplay></lottie-player>
+            </div>
+        </div>
+
+        <!-- Section 2 -->
+        <div class="glass-card grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div class="order-2 md:order-1 flex justify-center">
+                <lottie-player src="https://assets3.lottiefiles.com/private_files/lf30_kifrjgdc.json" background="transparent" speed="1" class="w-full max-w-[350px] h-[300px]" loop autoplay></lottie-player>
+            </div>
+            <div class="order-1 md:order-2">
+                <div class="w-10 h-10 rounded-lg bg-pink-500/20 flex items-center justify-center text-pink-400 text-lg mb-4">
+                    <i class="fa-solid fa-users text-pink-400"></i>
+                </div>
+                <h2 class="text-3xl font-extrabold text-white mb-4 font-heading">Who Benefits?</h2>
+                <ul class="space-y-3 text-slate-300 text-sm">
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-check text-pink-400 mt-1"></i>
+                        <span><strong>Law Enforcement Agencies:</strong> Allocate surveillance patrols to high-density Red Zones.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-check text-pink-400 mt-1"></i>
+                        <span><strong>Researchers & Academics:</strong> Scraped news databases for empirical crime studies.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-check text-pink-400 mt-1"></i>
+                        <span><strong>General Public:</strong> Real-time safety awareness and hotspot geographic alerts.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 3 -->
+        <div class="glass-card grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div>
+                <div class="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-lg mb-4">
+                    <i class="fa-solid fa-microchip"></i>
+                </div>
+                <h2 class="text-3xl font-extrabold text-white mb-4 font-heading">Technologies Stack</h2>
+                <div class="grid grid-cols-2 gap-4 text-xs font-semibold text-slate-300">
+                    <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-700/50">🐍 Python 3.12</div>
+                    <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-700/50">⚡ Flask Backend</div>
+                    <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-700/50">🤖 Scikit-Learn</div>
+                    <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-700/50">📈 FbProphet Time-Series</div>
+                    <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-700/50">🕷️ Selenium & BeautifulSoup</div>
+                    <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-700/50">🗺️ Folium & Geopy</div>
+                </div>
+            </div>
+            <div class="flex justify-center">
+                <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_xsnsvpbs.json" background="transparent" speed="1" class="w-full max-w-[350px] h-[300px]" loop autoplay></lottie-player>
+            </div>
+        </div>
+    </main>
+
+
+</body>
+
+</html>

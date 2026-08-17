@@ -1,0 +1,13 @@
+# Python & Virtualenv ignores
+.venv/
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+
+# IDE & OS ignores
+.DS_Store
+.vscode/
+.idea/
+*.log

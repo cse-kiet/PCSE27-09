@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linear Regression State IPC Predictor | Crime Analytics AI</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='stylesheets/modern_theme.css')}}">
+
+    <script src="{{url_for('static',filename='javascript/linearregression.js')}}"></script>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main">
+        <label class="logo" onclick="window.location.href='{{url_for('index')}}'">
+            <i class="fa-solid fa-shield-halved text-purple-400"></i>
+            CRIME ANALYTICS AI
+        </label>
+        <ul>
+            <li><a href="{{url_for('index')}}"><i class="fa-solid fa-house mr-1"></i> Home</a></li>
+            <li><a href="{{url_for('about')}}"><i class="fa-solid fa-circle-info mr-1"></i> About</a></li>
+            <li><a href="{{url_for('feedback')}}"><i class="fa-solid fa-comment-dots mr-1"></i> Feedback</a></li>
+        </ul>
+    </nav>
+    <div class="pt-20">
+        <nav class="secondnav">
+            <label class="log"><i class="fa-solid fa-chart-line mr-2"></i> LINEAR REGRESSION & GEOMETRIC POPULATION PROJECTION</label>
+        </nav>
+    </div>
+
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto px-6 py-12">
+        <div class="glass-card mb-8 flex items-center gap-4 bg-cyan-500/10 border-cyan-500/30">
+            <div class="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-2xl shrink-0">
+                <i class="fa-solid fa-people-line"></i>
+            </div>
+            <div>
+                <h3 class="text-lg font-bold text-white font-heading">Population-Driven Crime Projection</h3>
+                <p class="text-slate-300 text-sm">
+                    Calculates estimated state population $P = V_2 \cdot (1 + r)^n$ using Geometric Growth Rate and models total expected IPC Crimes using Linear Regression models ($R^2 \approx 0.96$).
+                </p>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <h2 class="text-2xl font-bold text-white mb-2 font-heading">
+                <i class="fa-solid fa-sliders text-cyan-400 mr-2"></i> Select State & Forecast Year
+            </h2>
+            <p class="text-slate-400 text-sm mb-8">
+                Choose a State or UT and the target prediction year to generate IPC crime totals and estimated crime rates.
+            </p>
+
+            <form action="{{url_for('linearreg')}}" method="post" class="space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl">
+                    <div>
+                        <label for="state_input" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Select State / UT</label>
+                        <select id="state_input" name="state_input" required class="w-full"></select>
+                    </div>
+                    <div>
+                        <label for="year-input" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Target Year</label>
+                        <select name="year" id="year-input" required class="w-full">
+                            <option disabled selected>Select Year</option>
+                        </select>
+                    </div>
+                </div>
+
+                <script>
+                    populatestates("state_input");
+                    Addyears("year-input");
+                </script>
+
+                <div class="pt-4">
+                    <button type="submit" class="btn-modern px-8 py-3">
+                        <i class="fa-solid fa-calculator"></i> Compute Linear Regression Forecast
+                    </button>
+                </div>
+            </form>
+
+            <!-- Output Box -->
+            {% if prediction_text %}
+            <div class="mt-8 pt-8 border-t border-slate-700/50">
+                <div class="text-xs uppercase tracking-widest text-slate-400 font-semibold mb-3">Model Output & Population Estimation</div>
+                <div class="p-6 rounded-2xl bg-slate-900/80 border border-slate-700/60 text-cyan-300 font-mono text-base leading-relaxed">
+                    <i class="fa-solid fa-chart-column mr-2 text-purple-400"></i> {{ prediction_text }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+
+
+</body>
+
+</html>
