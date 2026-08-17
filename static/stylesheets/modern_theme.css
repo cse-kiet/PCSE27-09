@@ -152,7 +152,7 @@ label.log {
   padding: 28px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  overflow: hidden;
+  overflow: visible !important;
 }
 
 .glass-card::before {
@@ -164,6 +164,8 @@ label.log {
   height: 2px;
   background: var(--primary-gradient);
   opacity: 0;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
   transition: opacity 0.4s ease;
 }
 
@@ -172,81 +174,12 @@ label.log {
   border-color: var(--border-glass-hover);
   transform: translateY(-6px) scale(1.01);
   box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 30px rgba(168, 85, 247, 0.15);
+  z-index: 100 !important;
+  overflow: visible !important;
 }
 
 .glass-card:hover::before {
   opacity: 1;
-}
-
-/* Form Controls & Inputs */
-select, input[type="text"], input[type="number"], textarea {
-  width: 100%;
-  background: rgba(15, 23, 42, 0.8) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  color: var(--text-main) !important;
-  border-radius: 12px !important;
-  padding: 12px 18px !important;
-  font-family: var(--font-main) !important;
-  font-size: 15px !important;
-  outline: none !important;
-  transition: all 0.3s ease !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3) !important;
-}
-
-select:focus, input:focus, textarea:focus {
-  border-color: var(--accent-purple) !important;
-  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.3) !important;
-}
-
-select option {
-  background: #0F172A;
-  color: var(--text-main);
-  padding: 10px;
-}
-
-/* Modern Glowing Buttons */
-.btn-modern, button.button {
-  background: var(--primary-gradient) !important;
-  color: #FFFFFF !important;
-  font-family: var(--font-heading) !important;
-  font-weight: 700 !important;
-  font-size: 15px !important;
-  letter-spacing: 0.5px;
-  padding: 12px 28px !important;
-  border-radius: 12px !important;
-  border: none !important;
-  cursor: pointer !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 8px !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.35) !important;
-  position: relative !important;
-  overflow: hidden !important;
-  text-decoration: none !important;
-}
-
-.btn-modern:hover, button.button:hover {
-  transform: translateY(-2px) scale(1.02) !important;
-  box-shadow: 0 8px 30px rgba(168, 85, 247, 0.5) !important;
-  color: #FFFFFF !important;
-}
-
-.btn-modern::after, button.button::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transform: rotate(30deg);
-  transition: 0.8s;
-}
-
-.btn-modern:hover::after, button.button:hover::after {
-  left: 100%;
 }
 
 /* Prediction Badges */
@@ -290,34 +223,59 @@ select option {
   100% { transform: scale(1.03); filter: brightness(1.2); }
 }
 
-/* Dropdown Menu Animations */
+/* Dropdown Menu Animations & Z-Index Fix */
 .drop-down {
   position: relative;
-  display: inline-block;
+  display: block;
+  width: 100%;
+  z-index: 100;
 }
 
 .dd-content {
   display: none;
   position: absolute;
-  top: 105%;
+  top: calc(100% + 6px);
   left: 0;
+  width: 100%;
   min-width: 220px;
-  background: rgba(15, 23, 42, 0.95);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #0F172A !important;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(168, 85, 247, 0.4) !important;
   border-radius: 14px;
   padding: 8px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(168, 85, 247, 0.2);
-  z-index: 100;
-  animation: fadeInDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(168, 85, 247, 0.35) !important;
+  z-index: 9999 !important;
+  animation: fadeInDown 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .drop-down:hover .dd-content {
-  display: block;
+  display: block !important;
 }
 
 .dd-content a {
-  display: block;
+  display: flex !important;
+  align-items: center !important;
+  padding: 12px 16px !important;
+  color: #F8FAFC !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+  text-decoration: none !important;
+  background: rgba(255, 255, 255, 0.03);
+  margin-bottom: 4px;
+}
+
+.dd-content a:last-child {
+  margin-bottom: 0;
+}
+
+.dd-content a:hover {
+  color: #FFFFFF !important;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(168, 85, 247, 0.4)) !important;
+  padding-left: 20px !important;
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+}
   padding: 10px 16px;
   color: var(--text-muted);
   font-size: 14px;

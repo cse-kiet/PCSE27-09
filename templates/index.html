@@ -26,7 +26,7 @@
             <li><a href="{{url_for('index')}}" class="active"><i class="fa-solid fa-house mr-1"></i> Home</a></li>
             <li><a href="{{url_for('about')}}"><i class="fa-solid fa-circle-info mr-1"></i> About</a></li>
             <li><a href="{{url_for('feedback')}}"><i class="fa-solid fa-comment-dots mr-1"></i> Feedback</a></li>
-            <li><a href="https://github.com/Mubeen-Zaki/Final_Year_Project" target="_blank"><i class="fa-brands fa-github mr-1"></i> GitHub</a></li>
+            <li><a href="https://github.com/cse-kiet/PCSE27-09" target="_blank"><i class="fa-brands fa-github mr-1"></i> GitHub</a></li>
         </ul>
     </nav>
 
@@ -83,14 +83,9 @@
                         Descriptive analysis categorizing districts into Red, Orange, and Green Crime Risk Zones.
                     </p>
                 </div>
-                <div class="drop-down w-full">
-                    <button class="btn-modern w-full">
-                        Try Module <i class="fa-solid fa-chevron-down text-xs"></i>
-                    </button>
-                    <div class="dd-content">
-                        <a href="{{url_for('Kmeans')}}"><i class="fa-solid fa-bolt text-purple-400 mr-2"></i> K-Means Hotspot Predictor</a>
-                    </div>
-                </div>
+                <a href="{{url_for('Kmeans')}}" class="btn-modern w-full text-center">
+                    Launch K-Means <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
             </div>
 
             <!-- 2. Random Forest Classification -->
@@ -104,14 +99,9 @@
                         Predict future district risk classification using Random Forest & Exponential Smoothing.
                     </p>
                 </div>
-                <div class="drop-down w-full">
-                    <button class="btn-modern w-full">
-                        Try Module <i class="fa-solid fa-chevron-down text-xs"></i>
-                    </button>
-                    <div class="dd-content">
-                        <a href="{{url_for('Randomfrstcls')}}"><i class="fa-solid fa-tree text-pink-400 mr-2"></i> Random Forest Classifier</a>
-                    </div>
-                </div>
+                <a href="{{url_for('Randomfrstcls')}}" class="btn-modern w-full text-center">
+                    Launch Random Forest <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
             </div>
 
             <!-- 3. Linear Regression -->
@@ -143,7 +133,7 @@
                 </div>
                 <div class="drop-down w-full">
                     <button class="btn-modern w-full">
-                        View Forecasts <i class="fa-solid fa-chevron-down text-xs"></i>
+                        View Forecasts <i class="fa-solid fa-chevron-down text-xs ml-1"></i>
                     </button>
                     <div class="dd-content">
                         <a href="{{url_for('timeseriescr')}}"><i class="fa-solid fa-arrow-trend-up text-emerald-400 mr-2"></i> Crime Rate Forecast</a>
@@ -165,11 +155,11 @@
                 </div>
                 <div class="drop-down w-full">
                     <button class="btn-modern w-full">
-                        Open Dashboards <i class="fa-solid fa-chevron-down text-xs"></i>
+                        Open Dashboards <i class="fa-solid fa-chevron-down text-xs ml-1"></i>
                     </button>
                     <div class="dd-content">
                         <a href="{{url_for('analysis')}}"><i class="fa-brands fa-google text-amber-400 mr-2"></i> Google Charts Dashboard</a>
-                        <a href="{{url_for('analysis2')}}"><i class="fa-solid fa-[#FF6600] fa-chart-simple text-amber-400 mr-2"></i> Plotly Interactive Graphs</a>
+                        <a href="{{url_for('analysis2')}}"><i class="fa-solid fa-chart-simple text-amber-400 mr-2"></i> Plotly Interactive Graphs</a>
                     </div>
                 </div>
             </div>
@@ -185,14 +175,9 @@
                         Choropleth mapping visualizer mapping regional crime densities across Indian coordinates.
                     </p>
                 </div>
-                <div class="drop-down w-full">
-                    <button class="btn-modern w-full">
-                        View Maps <i class="fa-solid fa-chevron-down text-xs"></i>
-                    </button>
-                    <div class="dd-content">
-                        <a href="{{url_for('analysis3')}}"><i class="fa-solid fa-map-location-dot text-indigo-400 mr-2"></i> Choropleth Maps</a>
-                    </div>
-                </div>
+                <a href="{{url_for('analysis3')}}" class="btn-modern w-full text-center">
+                    Launch Choropleth <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
             </div>
 
             <!-- 7. Crime News Feed Scraper -->
@@ -228,8 +213,6 @@
             </div>
         </div>
     </main>
-
-
 </body>
 
 </html>
