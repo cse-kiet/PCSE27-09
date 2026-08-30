@@ -107,8 +107,7 @@ def KMeansanalysis():
         else:
             label = "Crime Rate Varies a Lot"
 
-    return render_template('K-Means.html',prediction_text0 = label)
-
+    return render_template('K-Means.html', prediction_text0=label, selected_state=features[0], selected_district=features[1], zone_label=label)
 
 #RandomForest:
 @app.route('/Randomfrstcls')
@@ -145,7 +144,7 @@ def randomfrstcls():
         label = "ORANGE ZONE"
     final_features[0] = unlabelled[0]
     final_features[1] = unlabelled[1]
-    return render_template("RandomForestClassifer.html",prediction_text = label + ' ' + str(list(final_features.values)))
+    return render_template("RandomForestClassifer.html", prediction_text=label + ' ' + str(list(final_features.values)), selected_state=unlabelled[0], selected_district=unlabelled[1], zone_label=label)
 
 #LinearRegression:
 @app.route('/LinearReg')

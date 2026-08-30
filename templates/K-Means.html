@@ -35,7 +35,7 @@
 
     <!-- Main Container -->
     <main class="max-w-6xl mx-auto px-6 py-12">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
             
             <!-- Left 2 Columns: Input Form & Result -->
             <div class="lg:col-span-2 glass-card">
@@ -132,6 +132,125 @@
             </div>
         </div>
 
+        <!-- FEATURE 1: DYNAMIC SAFETY ADVISORY SYSTEM -->
+        {% if prediction_text0 %}
+        <div class="glass-card mb-8 border-l-4 {% if 'RED' in prediction_text0 %}border-l-red-500 bg-red-500/10{% elif 'ORANGE' in prediction_text0 %}border-l-orange-500 bg-orange-500/10{% else %}border-l-emerald-500 bg-emerald-500/10{% endif %}">
+            <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0 {% if 'RED' in prediction_text0 %}bg-red-500/20 text-red-400{% elif 'ORANGE' in prediction_text0 %}bg-orange-500/20 text-orange-400{% else %}bg-emerald-500/20 text-emerald-400{% endif %}">
+                    <i class="fa-solid fa-shield-virus"></i>
+                </div>
+                <div class="w-full">
+                    <div class="flex items-center justify-between flex-wrap gap-2 mb-2">
+                        <h3 class="text-xl font-bold text-white font-heading">
+                            🚨 District Safety Advisory for {{ selected_district|default('Selected District') }}, {{ selected_state|default('State') }}
+                        </h3>
+                        <span class="text-xs font-extrabold uppercase px-3 py-1 rounded-full {% if 'RED' in prediction_text0 %}bg-red-500/20 text-red-400 border border-red-500/40{% elif 'ORANGE' in prediction_text0 %}bg-orange-500/20 text-orange-400 border border-orange-500/40{% else %}bg-emerald-500/20 text-emerald-400 border border-emerald-500/40{% endif %}">
+                            {{ prediction_text0 }} Advisory
+                        </span>
+                    </div>
+
+                    {% if 'RED' in prediction_text0 %}
+                        <p class="text-slate-300 text-sm mb-4">
+                            <strong>High Vulnerability Area Alert:</strong> {{ selected_district }} exhibits a high historical crime density. Police surveillance patrols and local citizens are advised to observe strict safety protocols.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                            <div class="p-3 rounded-xl bg-slate-900/80 border border-red-500/30 text-slate-300">
+                                <div class="font-bold text-red-400 mb-1"><i class="fa-solid fa-moon mr-1"></i> Night Travel Precaution</div>
+                                Avoid unlit or isolated stretches after 9:00 PM. Share live travel location with family.
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-900/80 border border-red-500/30 text-slate-300">
+                                <div class="font-bold text-red-400 mb-1"><i class="fa-solid fa-video mr-1"></i> Surveillance & Security</div>
+                                Ensure active CCTV coverage at home/business premises and verify domestic staff credentials.
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-900/80 border border-red-500/30 text-slate-300">
+                                <div class="font-bold text-red-400 mb-1"><i class="fa-solid fa-phone-volume mr-1"></i> Emergency Hotline</div>
+                                Keep <strong>112</strong> & Cyber Helpline <strong>1930</strong> on quick dial for immediate dispatch.
+                            </div>
+                        </div>
+                    {% elif 'ORANGE' in prediction_text0 or 'Yellow' in prediction_text0 %}
+                        <p class="text-slate-300 text-sm mb-4">
+                            <strong>Moderate Caution Zone:</strong> {{ selected_district }} shows moderate crime rate fluctuations. Standard security precautions are recommended during late hours and crowded events.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                            <div class="p-3 rounded-xl bg-slate-900/80 border border-orange-500/30 text-slate-300">
+                                <div class="font-bold text-orange-400 mb-1"><i class="fa-solid fa-lock mr-1"></i> Personal Property</div>
+                                Double-lock vehicles and avoid leaving valuables visible inside parked automobiles.
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-900/80 border border-orange-500/30 text-slate-300">
+                                <div class="font-bold text-orange-400 mb-1"><i class="fa-solid fa-user-shield mr-1"></i> Public Awareness</div>
+                                Stay vigilant in high-footfall commercial areas against pickpocketing and snatching.
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-900/80 border border-orange-500/30 text-slate-300">
+                                <div class="font-bold text-orange-400 mb-1"><i class="fa-solid fa-phone mr-1"></i> Speed Dial Contacts</div>
+                                Keep local Police Station contact saved alongside emergency <strong>112</strong> helpline.
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="text-slate-300 text-sm mb-4">
+                            <strong>Low Crime Intensity Area:</strong> {{ selected_district }} demonstrates low historical crime metrics. Standard basic security hygiene is sufficient.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                            <div class="p-3 rounded-xl bg-slate-900/80 border border-emerald-500/30 text-slate-300">
+                                <div class="font-bold text-emerald-400 mb-1"><i class="fa-solid fa-circle-check mr-1"></i> General Security</div>
+                                Maintain standard residential door locks and outdoor lighting.
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-900/80 border border-emerald-500/30 text-slate-300">
+                                <div class="font-bold text-emerald-400 mb-1"><i class="fa-solid fa-laptop-code mr-1"></i> Cyber Safety</div>
+                                Remain cautious against online financial scams and phishing phone calls (Report to 1930).
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-900/80 border border-emerald-500/30 text-slate-300">
+                                <div class="font-bold text-emerald-400 mb-1"><i class="fa-solid fa-handshake mr-1"></i> Community Policing</div>
+                                Participate in local RWA / neighborhood security watch meetings.
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- NATIONAL EMERGENCY HELPLINES DIRECTORY -->
+        <div class="glass-card mb-8">
+            <h3 class="text-xl font-bold text-white mb-2 font-heading flex items-center gap-2">
+                <i class="fa-solid fa-phone-flip text-red-400"></i> National Emergency Helplines Directory
+            </h3>
+            <p class="text-slate-400 text-xs mb-6">One-touch toll-free emergency hotlines supported 24x7 across all Indian States & UTs</p>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <a href="tel:112" class="p-4 rounded-xl bg-red-500/10 border border-red-500/30 hover:border-red-500 transition-all flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-red-500/20 flex items-center justify-center text-red-400 font-black text-lg shrink-0">112</div>
+                    <div>
+                        <div class="text-xs font-bold text-white">National Emergency</div>
+                        <div class="text-[10px] text-slate-400">Police / Fire / Ambulance</div>
+                    </div>
+                </a>
+
+                <a href="tel:1091" class="p-4 rounded-xl bg-pink-500/10 border border-pink-500/30 hover:border-pink-500 transition-all flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-pink-500/20 flex items-center justify-center text-pink-400 font-black text-lg shrink-0">1091</div>
+                    <div>
+                        <div class="text-xs font-bold text-white">Women Helpline</div>
+                        <div class="text-[10px] text-slate-400">24x7 Distress Response</div>
+                    </div>
+                </a>
+
+                <a href="tel:1930" class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30 hover:border-cyan-500 transition-all flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400 font-black text-lg shrink-0">1930</div>
+                    <div>
+                        <div class="text-xs font-bold text-white">Cyber Crime Portal</div>
+                        <div class="text-[10px] text-slate-400">Financial Fraud Report</div>
+                    </div>
+                </a>
+
+                <a href="tel:1098" class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 hover:border-amber-500 transition-all flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-400 font-black text-lg shrink-0">1098</div>
+                    <div>
+                        <div class="text-xs font-bold text-white">Childline India</div>
+                        <div class="text-[10px] text-slate-400">Child Protection Emergency</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
         <!-- Embedded Interactive Cluster Map -->
         <div class="glass-card">
             <h3 class="text-xl font-bold text-white mb-4 font-heading">
@@ -142,8 +261,6 @@
             </div>
         </div>
     </main>
-
-
 </body>
 
 </html>
