@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>District Crime Comparison Tool | Crime Analytics AI</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome Icons & Chart.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{url_for('static',filename='stylesheets/modern_theme.css')}}">
+</head>
+
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="main">
+        <label class="logo" onclick="window.location.href='{{url_for('index')}}'">
+            <i class="fa-solid fa-shield-halved text-purple-400"></i>
+            CRIME ANALYTICS AI
+        </label>
+        <ul>
+            <li><a href="{{url_for('index')}}"><i class="fa-solid fa-house mr-1"></i> Home</a></li>
+            <li><a href="{{url_for('compare_page')}}" class="active"><i class="fa-solid fa-code-compare mr-1"></i> Compare Districts</a></li>
+            <li><a href="{{url_for('about')}}"><i class="fa-solid fa-circle-info mr-1"></i> About</a></li>
+            <li><a href="{{url_for('feedback')}}"><i class="fa-solid fa-comment-dots mr-1"></i> Feedback</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="pt-32 pb-8 px-6 max-w-7xl mx-auto text-center">
+        <div class="hero-badge">
+            <span class="pulse-dot"></span>
+            REAL-TIME INTERACTIVE COMPARATIVE ANALYTICS ENGINE
+        </div>
+        <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-4 font-heading">
+            District <span class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">Side-by-Side Comparison</span> Tool
+        </h1>
+        <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto font-light">
+            Compare crime density, risk zone classification, and threat metrics between any two districts across India for research and safety evaluation.
+        </p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-6 pb-24 space-y-8">
+        
+        <!-- Selection Card -->
+        <div class="glass-card">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
+                
+                <!-- District 1 Dropdown -->
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Select District 1</label>
+                    <div class="relative">
+                        <select id="select-d1" class="w-full bg-slate-900 border border-purple-500/40 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-purple-400 appearance-none font-semibold">
+                            <option value="JAIPUR">JAIPUR (RAJASTHAN)</option>
+                            <option value="MUMBAI" selected>MUMBAI (MAHARASHTRA)</option>
+                            <option value="PUNE">PUNE (MAHARASHTRA)</option>
+                            <option value="DELHI">NEW DELHI (DELHI)</option>
+                            <option value="LUCKNOW">LUCKNOW (UTTAR PRADESH)</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute right-4 top-4 text-slate-400 text-xs"></i>
+                    </div>
+                </div>
+
+                <!-- VS Divider -->
+                <div class="text-center md:col-span-1">
+                    <span class="w-12 h-12 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 inline-flex items-center justify-center font-black text-white text-sm shadow-xl border border-white/20">
+                        VS
+                    </span>
+                </div>
+
+                <!-- District 2 Dropdown -->
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Select District 2</label>
+                    <div class="relative">
+                        <select id="select-d2" class="w-full bg-slate-900 border border-purple-500/40 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-purple-400 appearance-none font-semibold">
+                            <option value="DELHI" selected>NEW DELHI (DELHI)</option>
+                            <option value="BANGALORE">BANGALORE (KARNATAKA)</option>
+                            <option value="KOLKATA">KOLKATA (WEST BENGAL)</option>
+                            <option value="HYDERABAD">HYDERABAD (TELANGANA)</option>
+                            <option value="KANPUR">KANPUR (UTTAR PRADESH)</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute right-4 top-4 text-slate-400 text-xs"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mt-6 text-center">
+                <button id="compare-btn" class="btn-modern px-8 py-3.5 text-sm font-bold tracking-wider uppercase inline-flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-base"></i> Execute Comparative Analysis
+                </button>
+            </div>
+        </div>
+
+        <!-- Comparison Summary Banner -->
+        <div id="summary-banner" class="glass-card bg-purple-500/10 border-purple-500/30 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center text-xl shrink-0">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold text-white font-heading">Comparative Intelligence Verdict</h4>
+                    <p id="verdict-text" class="text-xs text-slate-300 mt-0.5">Fetching metrics...</p>
+                </div>
+            </div>
+            <button id="download-comp-pdf-btn" class="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center gap-2 transition-all shrink-0">
+                <i class="fa-solid fa-file-pdf"></i> Download PDF Comparison
+            </button>
+        </div>
+
+        <!-- Side-by-Side Metric Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- District 1 Card -->
+            <div class="glass-card border-purple-500/30 relative">
+                <div class="flex items-center justify-between mb-4 border-b border-slate-700/50 pb-3">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-slate-400">DISTRICT 1 ASSESSED</span>
+                        <h3 id="d1-name" class="text-xl font-extrabold text-white font-heading">MUMBAI</h3>
+                        <p id="d1-state" class="text-xs text-purple-400 font-semibold">MAHARASHTRA</p>
+                    </div>
+                    <span id="d1-zone" class="px-3 py-1.5 rounded-xl text-xs font-black uppercase border">RED ZONE</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 text-center mb-4">
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                        <div class="text-[10px] text-slate-400 uppercase font-semibold">Crime Risk Index</div>
+                        <div id="d1-risk-score" class="text-2xl font-black text-purple-400 font-heading mt-1">0</div>
+                    </div>
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                        <div class="text-[10px] text-slate-400 uppercase font-semibold">Total IPC Crimes</div>
+                        <div id="d1-total-ipc" class="text-xl font-black text-white font-heading mt-1">0</div>
+                    </div>
+                </div>
+
+                <div class="space-y-2 text-xs">
+                    <div class="flex justify-between py-1.5 border-b border-slate-800">
+                        <span class="text-slate-400">Primary Threat Type:</span>
+                        <span id="d1-top-crime" class="font-bold text-rose-400">Theft</span>
+                    </div>
+                    <div class="flex justify-between py-1.5 border-b border-slate-800">
+                        <span class="text-slate-400">Murder Incidents:</span>
+                        <span id="d1-murder" class="font-bold text-white">0</span>
+                    </div>
+                    <div class="flex justify-between py-1.5 border-b border-slate-800">
+                        <span class="text-slate-400">Women Safety / Rape Cases:</span>
+                        <span id="d1-rape" class="font-bold text-white">0</span>
+                    </div>
+                    <div class="flex justify-between py-1.5 border-b border-slate-800">
+                        <span class="text-slate-400">Robbery & Dacoity:</span>
+                        <span id="d1-robbery" class="font-bold text-white">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- District 2 Card -->
+            <div class="glass-card border-pink-500/30 relative">
+                <div class="flex items-center justify-between mb-4 border-b border-slate-700/50 pb-3">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-slate-400">DISTRICT 2 ASSESSED</span>
+                        <h3 id="d2-name" class="text-xl font-extrabold text-white font-heading">DELHI</h3>
+                        <p id="d2-state" class="text-xs text-pink-400 font-semibold">DELHI UT</p>
+                    </div>
+                    <span id="d2-zone" class="px-3 py-1.5 rounded-xl text-xs font-black uppercase border">ORANGE ZONE</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 text-center mb-4">
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                        <div class="text-[10px] text-slate-400 uppercase font-semibold">Crime Risk Index</div>
+                        <div id="d2-risk-score" class="text-2xl font-black text-pink-400 font-heading mt-1">0</div>
+                    </div>
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                        <div class="text-[10px] text-slate-400 uppercase font-semibold">Total IPC Crimes</div>
+                        <div id="d2-total-ipc" class="text-xl font-black text-white font-heading mt-1">0</div>
+                    </div>
+                </div>
+
+                <div class="space-y-2 text-xs">
+                    <div class="flex justify-between py-1.5 border-b border-slate-800">
+                        <span class="text-slate-400">Primary Threat Type:</span>
+                        <span id="d2-top-crime" class="font-bold text-rose-400">Theft</span>
+                    </div>
+                    <div class="flex justify-between py-1.5 border-b border-slate-800">
+                        <span class="text-slate-400">Murder Incidents:</span>
+                        <span id="d2-murder" class="font-bold text-white">0</span>
+                    </div>
+                    <div class="flex justify-between py-1.5 border-b border-slate-800">
+                        <span class="text-slate-400">Women Safety / Rape Cases:</span>
+                        <span id="d2-rape" class="font-bold text-white">0</span>
+                    </div>
+                    <div class="flex justify-between py-1.5 border-b border-slate-800">
+                        <span class="text-slate-400">Robbery & Dacoity:</span>
+                        <span id="d2-robbery" class="font-bold text-white">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparative Chart Canvas -->
+        <div class="glass-card">
+            <h3 class="text-lg font-bold text-white font-heading mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-chart-column text-purple-400"></i> Crime Category Comparative Graph
+            </h3>
+            <div class="h-80 w-full relative">
+                <canvas id="comparisonChart"></canvas>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Global Helper Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="{{url_for('static',filename='js/pdf_report.js')}}"></script>
+    <script src="{{url_for('static',filename='js/chatbot.js')}}"></script>
+    <script src="{{url_for('static',filename='js/search_modal.js')}}"></script>
+
+    <script>
+        let chartInstance = null;
+        let lastCompareData = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Populate district dropdowns dynamically
+            fetch('/api/districts-list')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.districts && data.districts.length > 0) {
+                        const sel1 = document.getElementById('select-d1');
+                        const sel2 = document.getElementById('select-d2');
+                        sel1.innerHTML = '';
+                        sel2.innerHTML = '';
+                        
+                        data.districts.forEach(d => {
+                            sel1.add(new Option(d, d, false, d === 'MUMBAI'));
+                            sel2.add(new Option(d, d, false, d === 'JAIPUR'));
+                        });
+                    }
+                    executeComparison();
+                })
+                .catch(() => executeComparison());
+
+            document.getElementById('compare-btn').addEventListener('click', executeComparison);
+            document.getElementById('download-comp-pdf-btn').addEventListener('click', () => {
+                if (lastCompareData && lastCompareData.district1) {
+                    generateAndDownloadPDF(lastCompareData.district1);
+                }
+            });
+        });
+
+        function executeComparison() {
+            const d1 = document.getElementById('select-d1').value;
+            const d2 = document.getElementById('select-d2').value;
+
+            fetch(`/api/compare?d1=${encodeURIComponent(d1)}&d2=${encodeURIComponent(d2)}`)
+                .then(res => res.json())
+                .then(resData => {
+                    if (resData.status !== 'success') return;
+
+                    lastCompareData = resData;
+                    const info1 = resData.district1;
+                    const info2 = resData.district2;
+
+                    // Update D1
+                    document.getElementById('d1-name').innerText = info1.district.toUpperCase();
+                    document.getElementById('d1-state').innerText = info1.state.toUpperCase();
+                    document.getElementById('d1-risk-score').innerText = info1.risk_score;
+                    document.getElementById('d1-total-ipc').innerText = info1.total_ipc.toLocaleString();
+                    document.getElementById('d1-top-crime').innerText = info1.top_crime;
+                    document.getElementById('d1-murder').innerText = info1.murder;
+                    document.getElementById('d1-rape').innerText = info1.rape;
+                    document.getElementById('d1-robbery').innerText = info1.robbery;
+                    updateZoneBadge('d1-zone', info1.zone);
+
+                    // Update D2
+                    document.getElementById('d2-name').innerText = info2.district.toUpperCase();
+                    document.getElementById('d2-state').innerText = info2.state.toUpperCase();
+                    document.getElementById('d2-risk-score').innerText = info2.risk_score;
+                    document.getElementById('d2-total-ipc').innerText = info2.total_ipc.toLocaleString();
+                    document.getElementById('d2-top-crime').innerText = info2.top_crime;
+                    document.getElementById('d2-murder').innerText = info2.murder;
+                    document.getElementById('d2-rape').innerText = info2.rape;
+                    document.getElementById('d2-robbery').innerText = info2.robbery;
+                    updateZoneBadge('d2-zone', info2.zone);
+
+                    // Verdict Text
+                    if (resData.safer_district === "Equal Risk Level") {
+                        document.getElementById('verdict-text').innerText = `${info1.district} and ${info2.district} exhibit similar overall Risk Scores (${info1.risk_score}/100).`;
+                    } else {
+                        document.getElementById('verdict-text').innerText = `${resData.safer_district} demonstrates a safer security profile with a ${resData.safer_margin}-point lower Risk Index score compared to the counterpart district.`;
+                    }
+
+                    // Render Chart
+                    renderChart(info1, info2);
+                });
+        }
+
+        function updateZoneBadge(elementId, zone) {
+            const badge = document.getElementById(elementId);
+            badge.innerText = zone;
+            if (zone.includes('RED')) {
+                badge.className = 'px-3 py-1.5 rounded-xl text-xs font-black uppercase border bg-red-500/20 text-red-400 border-red-500/40';
+            } else if (zone.includes('GREEN')) {
+                badge.className = 'px-3 py-1.5 rounded-xl text-xs font-black uppercase border bg-emerald-500/20 text-emerald-400 border-emerald-500/40';
+            } else {
+                badge.className = 'px-3 py-1.5 rounded-xl text-xs font-black uppercase border bg-amber-500/20 text-amber-400 border-amber-500/40';
+            }
+        }
+
+        function renderChart(info1, info2) {
+            const ctx = document.getElementById('comparisonChart').getContext('2d');
+            if (chartInstance) chartInstance.destroy();
+
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Murder', 'Rape / Women Crimes', 'Kidnapping', 'Robbery', 'Theft', 'Assault/Hurt'],
+                    datasets: [
+                        {
+                            label: info1.district,
+                            data: [info1.murder, info1.rape, info1.kidnap, info1.robbery, info1.theft, info1.hurt],
+                            backgroundColor: 'rgba(168, 85, 247, 0.7)',
+                            borderColor: '#a855f7',
+                            borderWidth: 1
+                        },
+                        {
+                            label: info2.district,
+                            data: [info2.murder, info2.rape, info2.kidnap, info2.robbery, info2.theft, info2.hurt],
+                            backgroundColor: 'rgba(236, 72, 153, 0.7)',
+                            borderColor: '#ec4899',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        x: {
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: { color: '#94a3b8' }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#f8fafc', font: { family: 'Plus Jakarta Sans' } } }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -167,9 +167,14 @@
                         <h3 class="text-xl font-bold text-white font-heading">
                             🚨 Future Safety Advisory for {{ selected_district|default('Selected District') }}, {{ selected_state|default('State') }}
                         </h3>
-                        <span class="text-xs font-extrabold uppercase px-3 py-1 rounded-full {% if 'RED' in prediction_text %}bg-red-500/20 text-red-400 border border-red-500/40{% elif 'ORANGE' in prediction_text %}bg-orange-500/20 text-orange-400 border border-orange-500/40{% else %}bg-emerald-500/20 text-emerald-400 border border-emerald-500/40{% endif %}">
-                            {% if 'RED' in prediction_text %}RED ZONE PREDICTED{% elif 'ORANGE' in prediction_text %}ORANGE ZONE PREDICTED{% else %}GREEN ZONE PREDICTED{% endif %}
-                        </span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-extrabold uppercase px-3 py-1 rounded-full {% if 'RED' in prediction_text %}bg-red-500/20 text-red-400 border border-red-500/40{% elif 'ORANGE' in prediction_text %}bg-orange-500/20 text-orange-400 border border-orange-500/40{% else %}bg-emerald-500/20 text-emerald-400 border border-emerald-500/40{% endif %}">
+                                {% if 'RED' in prediction_text %}RED ZONE PREDICTED{% elif 'ORANGE' in prediction_text %}ORANGE ZONE PREDICTED{% else %}GREEN ZONE PREDICTED{% endif %}
+                            </span>
+                            <button onclick="searchDistrict('{{ selected_district }}')" class="px-4 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold flex items-center gap-1.5 transition-all">
+                                <i class="fa-solid fa-file-pdf"></i> Download PDF Report
+                            </button>
+                        </div>
                     </div>
 
                     {% if 'RED' in prediction_text %}
@@ -274,6 +279,12 @@
             </div>
         </div>
     </main>
+
+    <!-- Global Feature Helper Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="{{url_for('static',filename='js/pdf_report.js')}}"></script>
+    <script src="{{url_for('static',filename='js/chatbot.js')}}"></script>
+    <script src="{{url_for('static',filename='js/search_modal.js')}}"></script>
 </body>
 
 </html>

@@ -24,6 +24,7 @@
         </label>
         <ul>
             <li><a href="{{url_for('index')}}" class="active"><i class="fa-solid fa-house mr-1"></i> Home</a></li>
+            <li><a href="{{url_for('compare_page')}}"><i class="fa-solid fa-code-compare mr-1"></i> Compare Districts</a></li>
             <li><a href="{{url_for('about')}}"><i class="fa-solid fa-circle-info mr-1"></i> About</a></li>
             <li><a href="{{url_for('feedback')}}"><i class="fa-solid fa-comment-dots mr-1"></i> Feedback</a></li>
             <li><a href="https://github.com/cse-kiet/PCSE27-09" target="_blank"><i class="fa-brands fa-github mr-1"></i> GitHub</a></li>
@@ -39,9 +40,27 @@
         <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white mb-6 font-heading">
             Transforming Past Data Into <span class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">Future Safety</span>
         </h1>
-        <p class="text-slate-400 text-lg md:text-xl max-w-3xl mx-auto mb-10 leading-relaxed font-light">
+        <p class="text-slate-400 text-lg md:text-xl max-w-3xl mx-auto mb-8 leading-relaxed font-light">
             Leveraging K-Means Clustering, Random Forest Classification, Linear Regression, and Real-Time Web Scraping to identify risk zones and forecast crime trends across India.
         </p>
+
+        <!-- FEATURE 4: SMART MULTI-DISTRICT SEARCH BAR -->
+        <div class="max-w-2xl mx-auto mb-12">
+            <div class="relative flex items-center bg-slate-900/90 border border-purple-500/40 rounded-2xl p-2 shadow-2xl backdrop-blur-xl focus-within:border-purple-400 transition-all">
+                <i class="fa-solid fa-magnifying-glass text-purple-400 ml-4 text-lg"></i>
+                <input type="text" id="hero-district-search" placeholder="Search any District (e.g. Jaipur, Delhi, Mumbai, Lucknow, Pune)..." 
+                       class="w-full bg-transparent border-0 px-4 py-3 text-white text-sm outline-none placeholder:text-slate-500 font-medium"
+                       onkeypress="if(event.key === 'Enter') searchDistrict(this.value)">
+                <button onclick="searchDistrict(document.getElementById('hero-district-search').value)" 
+                        class="btn-modern px-6 py-3 text-xs font-bold shrink-0 rounded-xl flex items-center gap-2">
+                    <span>Calculate Risk Score</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-2 font-medium">
+                ⚡ Instant Crime Risk Score (0-100), Zone Classification & Official PDF Download
+            </p>
+        </div>
 
         <!-- Stats Bar -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-12">
@@ -266,6 +285,12 @@
             </div>
         </div>
     </main>
+
+    <!-- Global Feature Helper Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="{{url_for('static',filename='js/pdf_report.js')}}"></script>
+    <script src="{{url_for('static',filename='js/chatbot.js')}}"></script>
+    <script src="{{url_for('static',filename='js/search_modal.js')}}"></script>
 </body>
 
 </html>
