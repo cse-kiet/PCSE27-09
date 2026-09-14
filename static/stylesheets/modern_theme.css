@@ -404,3 +404,19 @@ footer {
   transform: translateY(-1px);
 }
 
+/* Google Translate Banner Cleanup */
+.goog-te-banner-frame {
+  display: none !important;
+}
+body {
+  top: 0px !important;
+}
+.goog-tooltip, .goog-tooltip:hover {
+  display: none !important;
+}
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+
