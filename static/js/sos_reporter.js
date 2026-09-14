@@ -33,9 +33,9 @@ function initSOSAndReporter() {
                 <a href="tel:112" class="p-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg">
                     <i class="fa-solid fa-phone"></i> Call 112
                 </a>
-                <a id="sos-whatsapp-btn" href="#" target="_blank" class="p-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-lg">
+                <button id="sos-whatsapp-btn" onclick="shareLocationAlert()" class="p-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-lg border-0 cursor-pointer">
                     <i class="fa-brands fa-whatsapp text-sm"></i> Share Location
-                </a>
+                </button>
             </div>
         </div>
     `;
@@ -98,6 +98,9 @@ function initSOSAndReporter() {
     document.body.appendChild(incidentModal);
 }
 
+let currentLat = "26.9124";
+let currentLng = "75.7873";
+
 function triggerSOSPanic() {
     const modal = document.getElementById('sos-panic-modal');
     if (!modal) return;
@@ -105,26 +108,37 @@ function triggerSOSPanic() {
 
     const geoStatus = document.getElementById('sos-geo-status');
     const coordsEl = document.getElementById('sos-coords');
-    const waBtn = document.getElementById('sos-whatsapp-btn');
 
     if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
             pos => {
-                const lat = pos.coords.latitude.toFixed(5);
-                const lng = pos.coords.longitude.toFixed(5);
-                coordsEl.innerText = `${lat}° N, ${lng}° E`;
+                currentLat = pos.coords.latitude.toFixed(5);
+                currentLng = pos.coords.longitude.toFixed(5);
+                coordsEl.innerText = `${currentLat}° N, ${currentLng}° E`;
                 geoStatus.innerText = "GPS Location Acquired Successfully.";
-                
-                const msg = encodeURIComponent(`EMERGENCY SOS ALERT! I need immediate safety assistance. My current GPS location: https://maps.google.com/?q=${lat},${lng}`);
-                waBtn.href = `https://api.whatsapp.com/send?text=${msg}`;
             },
             err => {
-                coordsEl.innerText = "26.9124° N, 75.7873° E (Estimated)";
+                coordsEl.innerText = `${currentLat}° N, ${currentLng}° E (Estimated)`;
                 geoStatus.innerText = "Location Estimated via IP Network.";
-                const msg = encodeURIComponent(`EMERGENCY SOS ALERT! Please contact emergency helplines 112 immediately.`);
-                waBtn.href = `https://api.whatsapp.com/send?text=${msg}`;
             }
         );
+    }
+}
+
+function shareLocationAlert() {
+    const mapUrl = `https://maps.google.com/?q=${currentLat},${currentLng}`;
+    const alertMsg = `🚨 EMERGENCY SOS ALERT! I need immediate safety assistance. My current GPS location: ${mapUrl}`;
+
+    if (navigator.share) {
+        navigator.share({
+            title: 'EMERGENCY SOS ALERT',
+            text: alertMsg,
+            url: mapUrl
+        }).catch(err => {
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(alertMsg)}`, '_blank');
+        });
+    } else {
+        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(alertMsg)}`, '_blank');
     }
 }
 
