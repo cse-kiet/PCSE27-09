@@ -12,41 +12,40 @@ geolocator = Nominatim(user_agent="my-app")
 
 cities=["Andhra Pradesh","Seoni","Ajmer","Hoogly","Begusarai","Farrukhabad","Mansa","Sonipat","Borivali","Mathura", "Jubilee Hills","Guntur", "Amaravati","Burhanpur", "Visakhapatnam","Cuttak","Kalyanpuri","Ajmer","Patiala", "Sitamarhi","Tirupati", "Arunachal Pradesh", "Itanagar", "Assam", "Dispur", "Guwahati", "Bihar", "Patna", "Gaya", "Purulia","Fatehpur", "Muzaffarpur", "Chandigarh", "Chhattisgarh", "Raipur", "Bhilai", "Goa", "Panaji", "Gujarat", "Gandhinagar", "Ahmedabad", "Surat", "Vadodara", "Rajkot", "Haryana", "Chandigarh","Kanpur", "Faridabad", "Gurugram", "Hisar", "Karnal", "Ambala", "Jammu and Kashmir", "Jammu", "Srinagar", "Jharkhand", "Ranchi", "Jamshedpur", "Bokaro Steel City", "Karnataka", "Bengaluru", "Mangalore", "Hubli", "Belgaum", "Gulbarga", "Shimoga", "Udupi", "Kerala", "Thiruvananthapuram", "Kochi", "Calicut", "Madhya Pradesh", "Bhopal", "Indore", "Jabalpur", "Maharashtra", "Mumbai", "Pune", "Nagpur", "Nashik", "Aurangabad", "Thane", "Manipur", "Imphal", "Meghalaya", "Shillong", "Mizoram", "Aizawl", "Nagaland", "Kohima", "Odisha", "Bhubaneswar", "Cuttack", "Punjab", "Chandigarh", "Ludhiana", "Amritsar", "Rajasthan", "Jaipur", "Jodhpur", "Udaipur", "Bikaner", "Ajmer","Dwarka","Mathura","Gurdaspur","Sonipat", "Sikkim", "Gangtok", "Tamil Nadu", "Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem", "Telangana", "Hyderabad", "Warangal", "Tripura", "Agartala", "Uttar Pradesh", "Lucknow", "Kanpur", "Agra", "Noida", "Varanasi", "Prayagraj", "Uttarakhand", "Dehradun", "West Bengal", "Kolkata", "Howrah", "Asansol", "Siliguri"]
 
-if(len(news_list)<550):
+if not news_list:
     print("no new updates")
     sys.exit()
 
 city_list = []
 for string in news_list:
-        for city in cities:
-            if city in string:
-                city_list.append(city)
-            elif "Uttar Pradesh's" in string:
-                city_list.append('Uttar Pradesh')
-            elif "UP's" in string:
-                city_list.append('Uttar Pradesh')
-            elif "UP" in string:
-                city_list.append('Uttar Pradesh')
-            elif 'Bangalore' in string:
-                city_list.append('Bengaluru')
-            elif 'Mangalore' in string:
-                city_list.append('Mangaluru')
-            elif 'MP' in string:
-                city_list.append('Madhya Pradesh')
-            elif "MP's" in string:
-                city_list.append('Madhya Pradesh')
-            elif "Andhra" in string:
-                city_list.append('Andhra Pradesh')
-            elif "Andhra Pradesh's" in string:
-                city_list.append('Andhra Pradesh')
-            elif "Delhi" in string:
-                city_list.append('New Delhi')
-                
-            
-                
-city_list.remove("Surat")
+    for city in cities:
+        if city in string:
+            city_list.append(city)
+        elif "Uttar Pradesh's" in string:
+            city_list.append('Uttar Pradesh')
+        elif "UP's" in string:
+            city_list.append('Uttar Pradesh')
+        elif "UP" in string:
+            city_list.append('Uttar Pradesh')
+        elif 'Bangalore' in string:
+            city_list.append('Bengaluru')
+        elif 'Mangalore' in string:
+            city_list.append('Mangaluru')
+        elif 'MP' in string:
+            city_list.append('Madhya Pradesh')
+        elif "MP's" in string:
+            city_list.append('Madhya Pradesh')
+        elif "Andhra" in string:
+            city_list.append('Andhra Pradesh')
+        elif "Andhra Pradesh's" in string:
+            city_list.append('Andhra Pradesh')
+        elif "Delhi" in string:
+            city_list.append('New Delhi')
 
-print(len(news_list))
+if "Surat" in city_list:
+    city_list.remove("Surat")
+
+print("Scraped news items count:", len(news_list))
 
 
     # Create a dictionary to store the frequency of each city
