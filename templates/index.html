@@ -24,18 +24,27 @@
         </label>
         <ul>
             <li><a href="{{url_for('index')}}" class="active"><i class="fa-solid fa-house mr-1"></i> Home</a></li>
-            <li><a href="{{url_for('compare_page')}}"><i class="fa-solid fa-code-compare mr-1"></i> Compare Districts</a></li>
+            <li><a href="{{url_for('compare_page')}}"><i class="fa-solid fa-code-compare mr-1"></i> Compare</a></li>
+            <li><a href="{{url_for('police_dashboard')}}"><i class="fa-solid fa-user-shield mr-1"></i> Police Dash</a></li>
+            <li><a href="{{url_for('model_metrics')}}"><i class="fa-solid fa-chart-pie mr-1"></i> ML Lab</a></li>
+            <li><a href="{{url_for('route_safety_page')}}"><i class="fa-solid fa-route mr-1"></i> Route Safety</a></li>
             <li><a href="{{url_for('about')}}"><i class="fa-solid fa-circle-info mr-1"></i> About</a></li>
-            <li><a href="{{url_for('feedback')}}"><i class="fa-solid fa-comment-dots mr-1"></i> Feedback</a></li>
-            <li><a href="https://github.com/cse-kiet/PCSE27-09" target="_blank"><i class="fa-brands fa-github mr-1"></i> GitHub</a></li>
         </ul>
     </nav>
 
     <!-- Hero Section -->
     <header class="pt-32 pb-12 px-6 max-w-7xl mx-auto text-center">
-        <div class="hero-badge">
-            <span class="pulse-dot"></span>
-            AI-POWERED PREDICTIVE POLICING & HOTSPOT INTELLIGENCE PLATFORM
+        <div class="flex items-center justify-center gap-3 mb-4 flex-wrap">
+            <div class="hero-badge mb-0">
+                <span class="pulse-dot"></span>
+                AI-POWERED PREDICTIVE POLICING & HOTSPOT INTELLIGENCE PLATFORM
+            </div>
+            <button onclick="triggerSOSPanic()" class="px-3.5 py-1.5 rounded-full bg-red-600/90 hover:bg-red-600 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-red-600/30 flex items-center gap-1.5 transition-all">
+                <i class="fa-solid fa-triangle-exclamation animate-bounce"></i> SOS Panic Button
+            </button>
+            <button onclick="openIncidentModal()" class="px-3.5 py-1.5 rounded-full bg-purple-600/90 hover:bg-purple-600 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-purple-600/30 flex items-center gap-1.5 transition-all">
+                <i class="fa-solid fa-bullhorn"></i> Report Incident
+            </button>
         </div>
         <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white mb-6 font-heading">
             Transforming Past Data Into <span class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">Future Safety</span>
@@ -288,6 +297,8 @@
 
     <!-- Global Feature Helper Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="{{url_for('static',filename='js/language_toggle.js')}}"></script>
+    <script src="{{url_for('static',filename='js/sos_reporter.js')}}"></script>
     <script src="{{url_for('static',filename='js/pdf_report.js')}}"></script>
     <script src="{{url_for('static',filename='js/chatbot.js')}}"></script>
     <script src="{{url_for('static',filename='js/search_modal.js')}}"></script>

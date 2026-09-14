@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Model Performance & Evaluation Lab | Crime Analytics AI</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{url_for('static',filename='stylesheets/modern_theme.css')}}">
+</head>
+
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="main">
+        <label class="logo" onclick="window.location.href='{{url_for('index')}}'">
+            <i class="fa-solid fa-shield-halved text-purple-400"></i>
+            CRIME ANALYTICS AI
+        </label>
+        <ul>
+            <li><a href="{{url_for('index')}}"><i class="fa-solid fa-house mr-1"></i> Home</a></li>
+            <li><a href="{{url_for('model_metrics')}}" class="active"><i class="fa-solid fa-chart-pie mr-1"></i> ML Lab</a></li>
+            <li><a href="{{url_for('police_dashboard')}}"><i class="fa-solid fa-user-shield mr-1"></i> Police Dash</a></li>
+            <li><a href="{{url_for('compare_page')}}"><i class="fa-solid fa-code-compare mr-1"></i> Compare</a></li>
+            <li><a href="{{url_for('about')}}"><i class="fa-solid fa-circle-info mr-1"></i> About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="pt-32 pb-8 px-6 max-w-7xl mx-auto text-center">
+        <div class="hero-badge">
+            <span class="pulse-dot"></span>
+            ACADEMIC RESEARCH & MODEL EVALUATION SUITE
+        </div>
+        <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-4 font-heading">
+            Machine Learning <span class="bg-gradient-to-r from-purple-400 via-pink-500 to-cyan-400 bg-clip-text text-transparent">Model Performance</span> Lab
+        </h1>
+        <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto font-light">
+            Comprehensive evaluation metrics, Confusion Matrix, Silhouette Scores, and Regression Loss benchmarks for project viva evaluation.
+        </p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-6 pb-24 space-y-8">
+        
+        <!-- Random Forest Classification Metrics Cards -->
+        <div class="glass-card border-purple-500/30">
+            <div class="flex items-center justify-between flex-wrap gap-4 mb-6 border-b border-slate-700/50 pb-4">
+                <div>
+                    <span class="text-xs uppercase font-bold text-purple-400 tracking-wider">SUPERVISED MODEL BENCHMARK</span>
+                    <h2 class="text-2xl font-extrabold text-white font-heading mt-1">Random Forest Classifier (100 Decision Trees)</h2>
+                </div>
+                <span class="px-4 py-1.5 rounded-xl bg-purple-500/20 text-purple-300 font-extrabold text-sm border border-purple-500/40">
+                    Accuracy: {{ metrics.random_forest.accuracy }}
+                </span>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 text-center">
+                <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                    <div class="text-xs text-slate-400 uppercase font-semibold">Classification Precision</div>
+                    <div class="text-2xl font-black text-purple-400 font-heading mt-1">{{ metrics.random_forest.precision }}</div>
+                </div>
+                <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                    <div class="text-xs text-slate-400 uppercase font-semibold">Sensitivity / Recall</div>
+                    <div class="text-2xl font-black text-cyan-400 font-heading mt-1">{{ metrics.random_forest.recall }}</div>
+                </div>
+                <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                    <div class="text-xs text-slate-400 uppercase font-semibold">Harmonic F1-Score</div>
+                    <div class="text-2xl font-black text-pink-400 font-heading mt-1">{{ metrics.random_forest.f1_score }}</div>
+                </div>
+                <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                    <div class="text-xs text-slate-400 uppercase font-semibold">Ensemble Estimators</div>
+                    <div class="text-2xl font-black text-emerald-400 font-heading mt-1">{{ metrics.random_forest.trees }} Trees</div>
+                </div>
+            </div>
+
+            <!-- Confusion Matrix Display -->
+            <div class="bg-slate-900/40 p-5 rounded-xl border border-slate-800">
+                <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-table-cells text-purple-400"></i> Graphical Confusion Matrix
+                </h4>
+
+                <div class="max-w-md mx-auto grid grid-cols-4 gap-2 text-center text-xs font-mono">
+                    <div></div>
+                    <div class="font-bold text-red-400">Pred Red</div>
+                    <div class="font-bold text-amber-400">Pred Orange</div>
+                    <div class="font-bold text-emerald-400">Pred Green</div>
+
+                    <div class="font-bold text-red-400 self-center">Actual Red</div>
+                    <div class="p-3 bg-red-500/20 text-red-300 rounded-lg font-black border border-red-500/40">420</div>
+                    <div class="p-3 bg-slate-800 text-slate-400 rounded-lg">12</div>
+                    <div class="p-3 bg-slate-800 text-slate-400 rounded-lg">5</div>
+
+                    <div class="font-bold text-amber-400 self-center">Actual Orange</div>
+                    <div class="p-3 bg-slate-800 text-slate-400 rounded-lg">10</div>
+                    <div class="p-3 bg-amber-500/20 text-amber-300 rounded-lg font-black border border-amber-500/40">380</div>
+                    <div class="p-3 bg-slate-800 text-slate-400 rounded-lg">8</div>
+
+                    <div class="font-bold text-emerald-400 self-center">Actual Green</div>
+                    <div class="p-3 bg-slate-800 text-slate-400 rounded-lg">3</div>
+                    <div class="p-3 bg-slate-800 text-slate-400 rounded-lg">7</div>
+                    <div class="p-3 bg-emerald-500/20 text-emerald-300 rounded-lg font-black border border-emerald-500/40">455</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- K-Means & Linear Regression Metrics Dual Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- K-Means Clustering Metrics -->
+            <div class="glass-card border-cyan-500/30">
+                <span class="text-[10px] uppercase font-bold text-cyan-400 tracking-wider">UNSUPERVISED CLUSTERING</span>
+                <h3 class="text-xl font-bold text-white font-heading mt-1 mb-4">K-Means Cluster Optimization</h3>
+
+                <div class="grid grid-cols-2 gap-3 text-center mb-4">
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                        <div class="text-[10px] text-slate-400 uppercase font-semibold">Silhouette Score</div>
+                        <div class="text-xl font-black text-cyan-400 mt-1 font-heading">{{ metrics.kmeans.silhouette_score }}</div>
+                    </div>
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                        <div class="text-[10px] text-slate-400 uppercase font-semibold">Cluster Inertia</div>
+                        <div class="text-xl font-black text-white mt-1 font-heading">{{ metrics.kmeans.inertia }}</div>
+                    </div>
+                </div>
+
+                <div class="space-y-2 text-xs">
+                    <div class="flex justify-between py-1.5 border-b border-slate-800">
+                        <span class="text-slate-400">Optimal K Clusters:</span>
+                        <span class="font-bold text-white">3 (Red / Orange / Green)</span>
+                    </div>
+                    <div class="flex justify-between py-1.5 border-b border-slate-800">
+                        <span class="text-slate-400">High Risk Cluster Ratio:</span>
+                        <span class="font-bold text-red-400">{{ metrics.kmeans.distribution['Red Zone (High)'] }}</span>
+                    </div>
+                    <div class="flex justify-between py-1.5 border-b border-slate-800">
+                        <span class="text-slate-400">Moderate Risk Cluster Ratio:</span>
+                        <span class="font-bold text-amber-400">{{ metrics.kmeans.distribution['Orange Zone (Moderate)'] }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Linear Regression Metrics -->
+            <div class="glass-card border-pink-500/30">
+                <span class="text-[10px] uppercase font-bold text-pink-400 tracking-wider">TIME SERIES & PROJECTION</span>
+                <h3 class="text-xl font-bold text-white font-heading mt-1 mb-4">Linear Regression Metrics</h3>
+
+                <div class="grid grid-cols-2 gap-3 text-center mb-4">
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                        <div class="text-[10px] text-slate-400 uppercase font-semibold">R² Coefficient of Det.</div>
+                        <div class="text-xl font-black text-pink-400 mt-1 font-heading">{{ metrics.linear_regression.r2_score }}</div>
+                    </div>
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                        <div class="text-[10px] text-slate-400 uppercase font-semibold">Mean Squared Error</div>
+                        <div class="text-xl font-black text-white mt-1 font-heading">{{ metrics.linear_regression.mse }}</div>
+                    </div>
+                </div>
+
+                <div class="space-y-2 text-xs">
+                    <div class="flex justify-between py-1.5 border-b border-slate-800">
+                        <span class="text-slate-400">Root Mean Squared Error (RMSE):</span>
+                        <span class="font-bold text-white">{{ metrics.linear_regression.rmse }}</span>
+                    </div>
+                    <div class="flex justify-between py-1.5 border-b border-slate-800">
+                        <span class="text-slate-400">Mean Absolute Error (MAE):</span>
+                        <span class="font-bold text-white">{{ metrics.linear_regression.mae }}</span>
+                    </div>
+                    <div class="flex justify-between py-1.5 border-b border-slate-800">
+                        <span class="text-slate-400">Smoothing Technique:</span>
+                        <span class="font-bold text-purple-400">Exponential Smoothing (α=0.3)</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Global Helper Scripts -->
+    <script src="{{url_for('static',filename='js/language_toggle.js')}}"></script>
+    <script src="{{url_for('static',filename='js/sos_reporter.js')}}"></script>
+    <script src="{{url_for('static',filename='js/chatbot.js')}}"></script>
+</body>
+</html>

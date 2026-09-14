@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Law Enforcement & Patrol Control Center | Crime Analytics AI</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='stylesheets/modern_theme.css')}}">
+</head>
+
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="main">
+        <label class="logo" onclick="window.location.href='{{url_for('index')}}'">
+            <i class="fa-solid fa-shield-halved text-purple-400"></i>
+            CRIME ANALYTICS AI
+        </label>
+        <ul>
+            <li><a href="{{url_for('index')}}"><i class="fa-solid fa-house mr-1"></i> Home</a></li>
+            <li><a href="{{url_for('police_dashboard')}}" class="active"><i class="fa-solid fa-user-shield mr-1"></i> Police Dash</a></li>
+            <li><a href="{{url_for('model_metrics')}}"><i class="fa-solid fa-chart-pie mr-1"></i> ML Lab</a></li>
+            <li><a href="{{url_for('compare_page')}}"><i class="fa-solid fa-code-compare mr-1"></i> Compare</a></li>
+            <li><a href="{{url_for('about')}}"><i class="fa-solid fa-circle-info mr-1"></i> About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="pt-32 pb-8 px-6 max-w-7xl mx-auto text-center">
+        <div class="hero-badge bg-rose-500/10 border-rose-500/30 text-rose-300">
+            <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+            RESTRICTED ACCESS LAW ENFORCEMENT CONTROL CENTER
+        </div>
+        <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-4 font-heading">
+            Strategic Patrol & <span class="bg-gradient-to-r from-red-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">Hotspot Resource</span> Dashboard
+        </h1>
+        <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto font-light">
+            Real-time police unit allocation, high-vulnerability Red Zone alerts, and emergency dispatch log queue across law enforcement zones.
+        </p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-6 pb-24 space-y-8">
+        
+        <!-- Live Red Alert Ticker -->
+        <div class="glass-card bg-red-950/30 border-red-500/40 p-4">
+            <div class="flex items-center justify-between flex-wrap gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-red-500/20 text-red-400 border border-red-500/30 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-tower-broadcast animate-pulse"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-white font-heading uppercase">High Vulnerability Red Zone Priority Corridors</h4>
+                        <p class="text-xs text-red-300 mt-0.5">8 Major Metropolitan Districts under high historical vulnerability monitoring</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-1.5">
+                    {% for d in red_districts %}
+                    <span class="px-3 py-1 rounded-lg bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-black uppercase">
+                        ⚠️ {{ d }}
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Patrol Units Grid -->
+        <div class="glass-card">
+            <h3 class="text-lg font-bold text-white mb-4 font-heading flex items-center gap-2">
+                <i class="fa-solid fa-car-tunnel text-purple-400"></i> Active Police Patrol Units & Squad Status
+            </h3>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead>
+                        <tr class="bg-slate-900/80 text-slate-400 border-b border-slate-800">
+                            <th class="p-3">Unit ID</th>
+                            <th class="p-3">Patrol Unit Name</th>
+                            <th class="p-3">Assigned Zone</th>
+                            <th class="p-3">Operational Status</th>
+                            <th class="p-3">Vigilance Level</th>
+                            <th class="p-3 text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800/60">
+                        {% for unit in active_patrols %}
+                        <tr class="hover:bg-slate-800/40 transition-colors">
+                            <td class="p-3 font-mono font-bold text-purple-400">{{ unit.id }}</td>
+                            <td class="p-3 font-bold text-white">{{ unit.unit }}</td>
+                            <td class="p-3 text-slate-300">{{ unit.zone }}</td>
+                            <td class="p-3">
+                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                                    ● {{ unit.status }}
+                                </span>
+                            </td>
+                            <td class="p-3">
+                                <span class="text-xs font-semibold text-amber-400">{{ unit.level }}</span>
+                            </td>
+                            <td class="p-3 text-right">
+                                <button class="px-3 py-1 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold text-[11px]" onclick="alert('Dispatch signal sent to {{unit.unit}}')">
+                                    Dispatch Alert
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Resource Allocation & Incident Queue -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="glass-card">
+                <h3 class="text-lg font-bold text-white mb-3 font-heading flex items-center gap-2">
+                    <i class="fa-solid fa-shield-cat text-cyan-400"></i> Resource Deployment Ratio
+                </h3>
+                <div class="space-y-3 text-xs">
+                    <div>
+                        <div class="flex justify-between text-slate-300 mb-1">
+                            <span>High Vulnerability Red Zone Patrol Coverage</span>
+                            <span class="font-bold text-red-400">45% Resources</span>
+                        </div>
+                        <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden">
+                            <div class="h-full bg-red-500 w-[45%]"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-slate-300 mb-1">
+                            <span>Moderate Vulnerability Orange Zone Patrols</span>
+                            <span class="font-bold text-amber-400">35% Resources</span>
+                        </div>
+                        <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden">
+                            <div class="h-full bg-amber-500 w-[35%]"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-slate-300 mb-1">
+                            <span>Low Crime Green Zone Surveillance</span>
+                            <span class="font-bold text-emerald-400">20% Resources</span>
+                        </div>
+                        <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden">
+                            <div class="h-full bg-emerald-500 w-[20%]"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <h3 class="text-lg font-bold text-white mb-3 font-heading flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-pink-400"></i> Citizen Tip Dispatch Queue
+                </h3>
+                <div class="space-y-2 text-xs">
+                    <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 flex justify-between items-center">
+                        <div>
+                            <div class="font-bold text-white">INC-1002 • Suspicious Activity Tip</div>
+                            <div class="text-[10px] text-slate-400">Location: Jaipur Station Outer • Anonymous</div>
+                        </div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300">QUEUED</span>
+                    </div>
+
+                    <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 flex justify-between items-center">
+                        <div>
+                            <div class="font-bold text-white">INC-1001 • Cyber Fraud Alert</div>
+                            <div class="text-[10px] text-slate-400">Location: Cyber Cell Desk • Verified</div>
+                        </div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300">DISPATCHED</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Global Helper Scripts -->
+    <script src="{{url_for('static',filename='js/language_toggle.js')}}"></script>
+    <script src="{{url_for('static',filename='js/sos_reporter.js')}}"></script>
+    <script src="{{url_for('static',filename='js/chatbot.js')}}"></script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Route Inspector & Danger Zone Warning | Crime Analytics AI</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='stylesheets/modern_theme.css')}}">
+</head>
+
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="main">
+        <label class="logo" onclick="window.location.href='{{url_for('index')}}'">
+            <i class="fa-solid fa-shield-halved text-purple-400"></i>
+            CRIME ANALYTICS AI
+        </label>
+        <ul>
+            <li><a href="{{url_for('index')}}"><i class="fa-solid fa-house mr-1"></i> Home</a></li>
+            <li><a href="{{url_for('route_safety_page')}}" class="active"><i class="fa-solid fa-route mr-1"></i> Route Safety</a></li>
+            <li><a href="{{url_for('compare_page')}}"><i class="fa-solid fa-code-compare mr-1"></i> Compare</a></li>
+            <li><a href="{{url_for('police_dashboard')}}"><i class="fa-solid fa-user-shield mr-1"></i> Police Dash</a></li>
+            <li><a href="{{url_for('about')}}"><i class="fa-solid fa-circle-info mr-1"></i> About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="pt-32 pb-8 px-6 max-w-7xl mx-auto text-center">
+        <div class="hero-badge">
+            <span class="pulse-dot"></span>
+            GEOSPATIAL TRAVEL SECURITY INSPECTOR
+        </div>
+        <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-4 font-heading">
+            Safe Route Inspector & <span class="bg-gradient-to-r from-emerald-400 via-purple-400 to-red-500 bg-clip-text text-transparent">Danger Zone Warning</span>
+        </h1>
+        <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto font-light">
+            Assess travel corridor safety, intermediate district risk scores, and night travel precautions before starting your journey.
+        </p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-6 pb-24 space-y-8">
+        
+        <!-- Input Form Card -->
+        <div class="glass-card">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
+                
+                <!-- Origin -->
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Origin City / District</label>
+                    <input type="text" id="route-origin" value="JAIPUR" placeholder="e.g. JAIPUR, MUMBAI" class="w-full bg-slate-900 border border-purple-500/40 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-purple-400 font-semibold uppercase">
+                </div>
+
+                <!-- Arrow Icon -->
+                <div class="text-center md:col-span-1">
+                    <span class="w-12 h-12 rounded-full bg-purple-600/30 text-purple-300 border border-purple-400/40 flex items-center justify-center text-lg mx-auto">
+                        <i class="fa-solid fa-route"></i>
+                    </span>
+                </div>
+
+                <!-- Destination -->
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Destination City / District</label>
+                    <input type="text" id="route-dest" value="DELHI" placeholder="e.g. DELHI, LUCKNOW" class="w-full bg-slate-900 border border-purple-500/40 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-purple-400 font-semibold uppercase">
+                </div>
+
+            </div>
+
+            <div class="mt-6 text-center">
+                <button id="inspect-route-btn" class="btn-modern px-8 py-3.5 text-sm font-bold tracking-wider uppercase inline-flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved"></i> Execute Route Safety Assessment
+                </button>
+            </div>
+        </div>
+
+        <!-- Route Verdict Banner -->
+        <div id="route-verdict-card" class="glass-card border-purple-500/30">
+            <div class="flex items-center justify-between flex-wrap gap-4 border-b border-slate-700/50 pb-4 mb-4">
+                <div>
+                    <span class="text-xs uppercase font-bold text-slate-400">CORRIDOR ASSESSMENT VERDICT</span>
+                    <h3 id="route-status-title" class="text-2xl font-extrabold text-white font-heading mt-1">SAFE ROUTE CORRIDOR</h3>
+                </div>
+                <div class="text-right">
+                    <span class="text-xs text-slate-400 block font-semibold">Corridor Avg Risk Index</span>
+                    <span id="route-avg-risk" class="text-2xl font-black text-purple-400 font-heading">0</span>/100
+                </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30 mb-6">
+                <h4 class="text-xs font-bold text-purple-300 uppercase mb-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Travel Precaution & Advisory
+                </h4>
+                <p id="route-advice-text" class="text-xs text-slate-300 leading-relaxed">Evaluating safety advice...</p>
+            </div>
+
+            <!-- Side by Side Origin & Destination Risk Summary -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800 space-y-2">
+                    <div class="text-[10px] text-slate-400 font-bold uppercase">ORIGIN DISTRICT RISK</div>
+                    <div id="route-orig-name" class="text-lg font-bold text-white font-heading">JAIPUR</div>
+                    <div class="text-xs text-purple-400 font-semibold">Risk Score: <span id="route-orig-score">0</span>/100</div>
+                </div>
+
+                <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800 space-y-2">
+                    <div class="text-[10px] text-slate-400 font-bold uppercase">DESTINATION DISTRICT RISK</div>
+                    <div id="route-dest-name" class="text-lg font-bold text-white font-heading">DELHI</div>
+                    <div class="text-xs text-pink-400 font-semibold">Risk Score: <span id="route-dest-score">0</span>/100</div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Global Helper Scripts -->
+    <script src="{{url_for('static',filename='js/language_toggle.js')}}"></script>
+    <script src="{{url_for('static',filename='js/sos_reporter.js')}}"></script>
+    <script src="{{url_for('static',filename='js/chatbot.js')}}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            executeRouteInspection();
+            document.getElementById('inspect-route-btn').addEventListener('click', executeRouteInspection);
+        });
+
+        function executeRouteInspection() {
+            const orig = document.getElementById('route-origin').value;
+            const dest = document.getElementById('route-dest').value;
+
+            fetch(`/api/route-safety?origin=${encodeURIComponent(orig)}&destination=${encodeURIComponent(dest)}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status !== 'success') return;
+
+                    document.getElementById('route-status-title').innerText = data.route_safety_status;
+                    document.getElementById('route-avg-risk').innerText = data.avg_risk;
+                    document.getElementById('route-advice-text').innerText = data.route_advice;
+
+                    document.getElementById('route-orig-name').innerText = data.origin.district.toUpperCase();
+                    document.getElementById('route-orig-score').innerText = data.origin.risk_score;
+
+                    document.getElementById('route-dest-name').innerText = data.destination.district.toUpperCase();
+                    document.getElementById('route-dest-score').innerText = data.destination.risk_score;
+                });
+        }
+    </script>
+</body>
+</html>
