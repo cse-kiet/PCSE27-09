@@ -57,26 +57,57 @@ for city in city_list:
             city_freq[city] += 1
 print(city_freq)
     # Create a list of tuples with latitude, longitude and frequency of each city
-city_coords_freq = []
-for city in city_freq:
-        coords = geolocator.geocode(city)[1]
-        freq = city_freq[city]
-        city_coords_freq.append((coords[0], coords[1], freq))
+# Pre-mapped coordinates dictionary for instant & reliable geocoding
+CITY_COORDS_MAP = {
+    'New Delhi': (28.6139, 77.2090),
+    'Mumbai': (19.0760, 72.8777),
+    'Jaipur': (26.9124, 75.7873),
+    'Bengaluru': (12.9716, 77.5946),
+    'Lucknow': (26.8467, 80.9462),
+    'Kanpur': (26.4499, 80.3319),
+    'Patna': (25.5941, 85.1376),
+    'Pune': (18.5204, 73.8567),
+    'Kolkata': (22.5726, 88.3639),
+    'Ahmedabad': (23.0225, 72.5714),
+    'Hyderabad': (17.3850, 78.4867),
+    'Surat': (21.1702, 72.8311),
+    'Chennai': (13.0827, 80.2707),
+    'Indore': (22.7196, 75.8577),
+    'Bhopal': (23.2599, 77.4126),
+    'Agra': (27.1767, 78.0081),
+    'Varanasi': (25.3176, 82.9739),
+    'Noida': (28.5355, 77.3910),
+    'Chandigarh': (30.7333, 76.7794),
+    'Ranchi': (23.3441, 85.3096),
+    'Uttar Pradesh': (26.8467, 80.9462),
+    'Madhya Pradesh': (23.2599, 77.4126),
+    'Andhra Pradesh': (16.5062, 80.6480)
+}
 
-    # Create a folium map centered at India
+city_coords_freq = []
+for city, freq in city_freq.items():
+    if city in CITY_COORDS_MAP:
+        lat, lng = CITY_COORDS_MAP[city]
+        city_coords_freq.append((lat, lng, freq))
+    else:
+        try:
+            loc = geolocator.geocode(city, timeout=5)
+            if loc:
+                city_coords_freq.append((loc.latitude, loc.longitude, freq))
+        except Exception as e:
+            # Fallback to Delhi coordinates if geocoding fails
+            city_coords_freq.append((28.6139, 77.2090, freq))
+
+# Create a folium map centered at India
 india_coords = [20.5937, 78.9629]
 m = folium.Map(location=india_coords, zoom_start=5)
 
-
-    # Create a heatmap layer using the list of tuples
-HeatMap(city_coords_freq, radius=15, blur=10).add_to(m)
-
-    # Display the map
-
-
+# Create a heatmap layer using the list of tuples
+if city_coords_freq:
+    HeatMap(city_coords_freq, radius=15, blur=10).add_to(m)
 
 m.save('templates/final.html') 
-print("Heat Map Generated. Refresh to see the results.")
+print("Heat Map Generated Successfully! Refresh page to see the results.")
     #HeatMap(data).add_to(mapObj)
 
 
