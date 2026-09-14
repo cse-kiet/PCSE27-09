@@ -7,28 +7,34 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 from bs4 import BeautifulSoup
 
+import time
+
 options = webdriver.ChromeOptions()
-options.add_argument("--headless=new")
-options.add_argument("--disable-gpu")
-options.add_argument("--no-sandbox")
+options.add_experimental_option("detach", True)
 options.add_argument("--disable-notifications")
+options.add_argument("--start-maximized")
 options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 
 news_list = []
 
 try:
+    print("Launching Visible Chrome Browser for Live Scraping Demonstration...")
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     driver.get('https://www.indiatoday.in/crime')
+    time.sleep(2)
 
-    for _ in range(5):
+    for i in range(5):
         try:
-            button = WebDriverWait(driver, 3).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="main"]/div/div/div[2]/main/div/div[2]/span')))
+            button = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="main"]/div/div/div[2]/main/div/div[2]/span')))
+            driver.execute_script("arguments[0].scrollIntoView(true);", button)
+            time.sleep(1)
             button.click()
-        except (StaleElementReferenceException, TimeoutException):
+            print(f"Scraper clicked 'Load More' page {i+1}...")
+            time.sleep(1.5)
+        except (StaleElementReferenceException, TimeoutException, Exception):
             pass
 
     html = driver.page_source
-    driver.quit()
 
     soup = BeautifulSoup(html, 'html.parser')
     container = soup.find('div', {'class': 'story__grid'}) or soup
@@ -40,6 +46,7 @@ try:
                 news_list.append(new_title)
 except Exception as e:
     print(f"Scraper notice: {e}")
+
 
 if not news_list:
     # Fallback crime headlines for demonstration
